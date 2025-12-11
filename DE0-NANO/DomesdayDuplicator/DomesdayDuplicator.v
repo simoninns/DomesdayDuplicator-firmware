@@ -11,8 +11,8 @@
 
 module DomesdayDuplicator(
 	input        CLOCK_50,
-	inout [33:0] GPIO0,
-	inout [33:0] GPIO1,
+	output [33:0] GPIO0,
+	output [33:0] GPIO1,
 	output [7:0] LED
 );
 
@@ -41,24 +41,6 @@ assign GPIO1[08] = fx3_databus[12];
 assign GPIO1[06] = fx3_databus[13];
 assign GPIO1[04] = fx3_databus[14];
 assign GPIO1[02] = fx3_databus[15];
-
-// High-Z the unused FX3 databus pins 
-assign GPIO0[02] = 1'bZ;
-assign GPIO0[03] = 1'bZ;
-assign GPIO0[04] = 1'bZ;
-assign GPIO0[05] = 1'bZ;
-assign GPIO0[06] = 1'bZ;
-assign GPIO0[07] = 1'bZ;
-assign GPIO0[12] = 1'bZ;
-assign GPIO0[13] = 1'bZ;
-assign GPIO0[14] = 1'bZ;
-assign GPIO0[15] = 1'bZ;
-assign GPIO0[16] = 1'bZ;
-assign GPIO0[17] = 1'bZ;
-assign GPIO0[18] = 1'bZ;
-assign GPIO0[19] = 1'bZ;
-assign GPIO0[20] = 1'bZ;
-assign GPIO0[21] = 1'bZ;
 
 // Mappings for 32-bit databus
 //assign GPIO0[02] = fx3_databus[16];
@@ -98,38 +80,22 @@ assign fx3_control[08] = GPIO1[11];	// FX3 CTL_08 GPIO_25
 assign fx3_control[09] = GPIO1[09];	// FX3 CTL_09 GPIO_26
 assign fx3_control[10] = GPIO1[07];	// FX3 CTL_10 GPIO_27
 
-// High-Z the unused GPIO0 pins
-assign GPIO0[0] = 1'bZ;
-assign GPIO0[1] = 1'bZ;
-assign GPIO0[8] = 1'bZ;
-assign GPIO0[9] = 1'bZ;
-assign GPIO0[10] = 1'bZ;
-assign GPIO0[11] = 1'bZ;
-assign GPIO0[22] = 1'bZ;
-assign GPIO0[23] = 1'bZ;
-assign GPIO0[24] = 1'bZ;
-assign GPIO0[25] = 1'bZ;
-assign GPIO0[26] = 1'bZ;
-assign GPIO0[27] = 1'bZ;
-assign GPIO0[28] = 1'bZ;
-assign GPIO0[29] = 1'bZ;
-assign GPIO0[30] = 1'bZ;
-assign GPIO0[31] = 1'bZ;
-assign GPIO0[32] = 1'bZ;
+// Tie unused GPIO0 outputs to 0 to avoid floating outputs
+assign GPIO0[21:0] = 22'b0;   // GPIO0[0:21] unused
+assign GPIO0[32:22] = 11'b0;  // GPIO0[22:32] unused
 
-// High-Z the unused GPIO1 pins
-assign GPIO1[0] = 1'bZ;
-assign GPIO1[1] = 1'bZ;
-assign GPIO1[7] = 1'bZ;
-assign GPIO1[9] = 1'bZ;
-assign GPIO1[11] = 1'bZ;
-assign GPIO1[13] = 1'bZ;
-assign GPIO1[15] = 1'bZ;
-assign GPIO1[17] = 1'bZ;
-assign GPIO1[23] = 1'bZ;
-assign GPIO1[25] = 1'bZ;
-assign GPIO1[29] = 1'bZ;
-assign GPIO1[33] = 1'bZ;
+// Tie unused GPIO1 outputs to 0 to avoid floating outputs  
+assign GPIO1[1:0] = 2'b0;     // GPIO1[0:1] unused
+assign GPIO1[7] = 1'b0;       // GPIO1[7] unused input
+assign GPIO1[9] = 1'b0;       // GPIO1[9] unused input
+assign GPIO1[11] = 1'b0;      // GPIO1[11] unused input
+assign GPIO1[13] = 1'b0;      // GPIO1[13] unused input
+assign GPIO1[15] = 1'b0;      // GPIO1[15] unused input
+assign GPIO1[17] = 1'b0;      // GPIO1[17] unused input
+assign GPIO1[23] = 1'b0;      // GPIO1[23] unused input
+assign GPIO1[25] = 1'b0;      // GPIO1[25] unused input
+assign GPIO1[29] = 1'b0;      // GPIO1[29] unused
+assign GPIO1[33] = 1'b0;      // GPIO1[33] unused
 
 // FX3 Signal mapping:
 //
