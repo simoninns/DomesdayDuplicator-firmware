@@ -22,16 +22,16 @@ reg [31:0] timer;
 reg direction;
 reg [3:0] position; // 4-bit value 0-15
 
-always @ (posedge clock, negedge nReset) begin
+always @ (posedge clock) begin
 	if (!nReset) begin
 		leds <= 8'b00000001;
-		timer <= 16'd0;
+		timer <= 32'd0;
 		direction <= 1'b1;
 		position <= 4'd0;
 	end else begin
 		timer <= timer + 32'd1;
 		// Wait for the timer to elapse before updating LEDs
-		if (timer >= 32'd4000000) begin
+		if (timer >= 32'd3000000) begin
 			case(position)
 				4'd0:leds <= 8'b00000001;
 				4'd1:leds <= 8'b00000010;

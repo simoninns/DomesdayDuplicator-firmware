@@ -190,6 +190,19 @@ IPpllGenerator IPpllGenerator0 (
 wire fx3_isReading;
 wire [15:0] dataGeneratorOut;
 
+// Synchronize FX3 nReset into fx3_clock domain (2-FF synchronizer)
+reg reset_sync1;
+reg reset_sync2;
+always @ (posedge fx3_clock or negedge fx3_nReset) begin
+	if (!fx3_nReset) begin
+		reset_sync1 <= 1'b0;
+		reset_sync2 <= 1'b0;
+	end else begin
+		reset_sync1 <= 1'b1;
+		reset_sync2 <= reset_sync1;
+	end
+end
+
 // Generate 16-bit data either from the ADC or the test data generator
 dataGenerator dataGenerator0 (
 	// Inputs
@@ -213,7 +226,7 @@ buffer buffer0 (
 	
 	// Outputs
 	.bufferOverflow(fx3_bufferError),	// Set if a buffer overflow occurs
-	.dataAvailable(fx3_dataAvailable),	// Set if buffer contains at least 8192 words of data
+	.dataAvailable(fx3_dataAvailable),	// Set if buffer is completely full (8192 words)
 	.dataOut(fx3_databus)					// 16-bit data output
 );
 
@@ -231,7 +244,7 @@ fx3StateMachine fx3StateMachine0 (
 // Status LED control
 statusLED statusLED0 (
 	// Inputs
-	.nReset(fx3_nReset),
+	.nReset(reset_sync2),
 	.clock(fx3_clock),
 	
 	// Outputs
